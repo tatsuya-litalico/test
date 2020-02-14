@@ -5,14 +5,21 @@ using UnityEngine;
 public class move : MonoBehaviour
 {
     public GameObject player;
-    public Vector3 velocity;
-    private CharacterController controller;
-    private Vector3 moveDirection;
+    public Vector2 velocity;
+    public float jump_power = 1000f;
+    private Rigidbody2D rb;
+    private bool isGrounded = true;
 
     // Start is called before the first frame update
     void Start()
     {
-        controller = GetComponent<CharacterController>();
+        rb = player.GetComponent<Rigidbody2D>();
+    }
+
+    private void OnCollisonEnter(Collision collision)
+    {
+        Destroy(player);
+//        isGrounded = true;
     }
 
     // Update is called once per frame
@@ -27,16 +34,14 @@ public class move : MonoBehaviour
         {
             player.transform.position -= transform.right * velocity.y * Time.deltaTime;
         }
+
         //ジャンプ
-        if (controller.isGrounded)
+        if (isGrounded)
         {
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                moveDirection.y = 20;
+                rb.AddForce(transform.up * jump_power);
             }
         }
-
-        moveDirection.y -= 10 * Time.deltaTime;
-        controller.Move(moveDirection * Time.deltaTime);
     }
 }
