@@ -478,7 +478,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 77b5845643540441485f51fd482845ef, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  density: 90
+  density: 30
   bullet: {fileID: 4044086221496264637, guid: dffcbd1eef19d446da2bf40e5bcf676e, type: 3}
 --- !u!212 &2033403503
 SpriteRenderer:

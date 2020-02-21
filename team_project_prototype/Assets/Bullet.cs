@@ -4,15 +4,20 @@ using UnityEngine;
 
 public class Bullet : MonoBehaviour
 {
+    [SerializeField]
+    float DestroyTime = 0;
     float speed = 1f;
     Rigidbody2D rd = default;
     void Start()
     {
         rd = GetComponent<Rigidbody2D>();
+        Destroy(gameObject, DestroyTime);
     }
 
     void Update()
     {
-        rd.AddForce(transform.right * (transform.rotation.z >= 0 ? speed : -speed), ForceMode2D.Impulse);
+        Vector3 directiion = transform.right * (transform.rotation.z <= 90 ? speed : -speed);
+        Debug.Log(directiion);
+        rd.AddForce(directiion, ForceMode2D.Impulse);
     }
 }

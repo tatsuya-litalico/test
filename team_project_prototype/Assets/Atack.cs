@@ -1,5 +1,5 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
 
 public class Atack : MonoBehaviour
@@ -8,7 +8,11 @@ public class Atack : MonoBehaviour
     int density = 0;
     [SerializeField]
     GameObject bullet = null;
-
+    [SerializeField]
+    GameObject Target = null;
+    [SerializeField]
+    float AttackDirection = 0;
+    float time = 0;
     void Start()
     {
         
@@ -16,12 +20,16 @@ public class Atack : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Vector3.Distance(Target.transform.position, gameObject.transform.position) <= AttackDirection)//距離が一定以下なら
         {
-            GameObject b = Instantiate(bullet, transform.position, new Quaternion(0, 0, 0, 0));
-            b.transform.Rotate(0, 0, 180);
-            b = null;
-            //BossAtack();
+            time += Time.deltaTime;//秒数追加
+            if(time > 3)//N秒以上なら
+            {
+                BossAtack();//ボスのアタック関数実行
+                time = 0;
+            }
+        }else{
+            time = 0;
         }
     }
 
@@ -38,8 +46,15 @@ public class Atack : MonoBehaviour
         for (int rad = 0; rad <= 180; rad += density)
         {
             GameObject b = Instantiate(bullet, transform.position, new Quaternion(0, 0, 0, 0));
-            b.transform.Rotate(0, 0, rad);
-            Debug.Log(rad);
+            b.transform.Rotate(0, 0, rad);//角度の設定
         }
     }
+    //private IEnumerator DelayMethod(int delayFrameCount, Action action)
+    //{
+    //    for (var i = 0; i < delayFrameCount; i++)
+    //    {
+    //        yield return null;
+    //    }
+    //    action();
+    //}
 }
